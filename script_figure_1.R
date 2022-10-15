@@ -196,3 +196,5 @@ p4 <- df_obitos %>%
 #--------------------  Figure 1
 p1 /(p2 + p3 + p4) + plot_annotation(tag_levels = "A") + 
   plot_layout(guides = "collect") & theme(legend.position = "bottom")
+
+
