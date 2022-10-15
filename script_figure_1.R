@@ -116,7 +116,6 @@ p2 <- df_obitos %>% filter(faixa_etaria %in% c("20-49", "50-59", "60-69", "70+")
         legend.position = "top")
 
 
-
 p3 <- df_obitos %>% 
   filter(faixa_etaria %in% c("20-49", "50-59", "60-69", "70+"), data > "2020-12-31") %>% 
   group_by(data) %>% 
