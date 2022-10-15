@@ -18,7 +18,6 @@ Sys.setlocale("LC_TIME", "English")
 #--------------------------------- D A T A S E T  R E A D I N G------ -----------------------------
 ###################################################################################################
 
-
 df_obitos <- read.csv2("df_obitos.csv", header = TRUE, sep = ";", dec = ",")
 df_obitos$data <- lubridate::dmy(df_obitos$data)
 View(df_obitos)
