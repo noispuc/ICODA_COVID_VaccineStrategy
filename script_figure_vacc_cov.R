@@ -146,3 +146,5 @@ c2 <- df_obitos %>%
 
 (c1 + c2) + plot_annotation(tag_levels = "A") + 
   plot_layout(guides = "collect") & theme(legend.position = "bottom")
+
+
