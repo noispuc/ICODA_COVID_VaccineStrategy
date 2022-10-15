@@ -94,31 +94,21 @@ rate_ratio <- filtro_rate_pop_BR %>%
 rate_ratio
 
 
-#-------------------------- Vaccination coverage
-df_vacinacao <- vacinacao %>%
-  filter(uf != "" & uf != "XX") %>%
-  mutate(state = uf, data = data_aplicacao, faixa_etaria = idade_grupo) %>%
-  select(state, data, faixa_etaria, total, vacina_dose) %>%
-  group_by(data, faixa_etaria) %>%
-  filter(vacina_dose %in% c("D2","D_unica"), faixa_etaria != "0-4" &  faixa_etaria != "5-9" &
-           faixa_etaria != "10-14" &  faixa_etaria != "15-19" ) %>%
-  summarise(vaccinated = sum(total)) # WARNING:  it is necessary to modify the vaccine_dose filter if it is single or full vaccinate (single: only "D1", full: "D2","D_unica")
-  
-  aux_vac <- df_vacinacao %>% 
-    spread(faixa_etaria, vaccinated) %>% 
-    replace(is.na(.),0)
-  aux_vac$data = lubridate::ymd(aux_vac$data)
-  aux_vac <- aux_vac %>% filter(data <= "2021-12-31")
-  
-  aux_vac$`20-49` <- aux_vac$`20-29` + aux_vac$`30-39` + aux_vac$`40-49`
-  aux_vac$`70+` <- aux_vac$`70-79` + aux_vac$`80+`
-  aux_vac$`BR` <- aux_vac$`20-29` + aux_vac$`30-39`  + aux_vac$`40-49` + aux_vac$`50-59` +
-    aux_vac$`60-69` + aux_vac$`70-79`  + aux_vac$`80+` 
-  
-vac <- aux_vac %>% select(data, "BR", "20-49", "50-59", "60-69", "70+") %>% 
+#-------------------------- Vaccination coverage first dose
+
+first_dose <- read.csv2("vac_coverage_first.csv", header = T, sep = ";",  dec = ",")
+first_dose$data <- lubridate::dmy(first_dose$data)
+colnames(first_dose) <- c("data", "20-29", "30-39", "40-49","50-59", 
+                "60-69", "70-79", "80+", "20-49", "70+", "BR" )
+faixa <- matrix(c(97706614, 23875072, 16732965, 13464087, 121581686, 30197052), nrow = 1, byrow = T)
+colnames(faixa) <- c("20-49", "50-59", "60-69", "70+", "<60", ">=60")
+faixa <- as.data.frame(faixa)
+total_BR_population <- 151778738
+
+vacCoverage_first <- first_dose %>% select(data, "BR", "20-49", "50-59", "60-69", "70+") %>% 
     gather(., faixa_etaria, vacina, -data) %>% 
     mutate(population =  case_when(
-      faixa_etaria == "BR" ~ total_BR$population,
+      faixa_etaria == "BR" ~ total_BR_population,
       faixa_etaria == "20-49" ~ faixa$`20-49`,
       faixa_etaria == "50-59" ~ faixa$`50-59`,
       faixa_etaria == "60-69" ~ faixa$`60-69`,
@@ -128,8 +118,61 @@ vac <- aux_vac %>% select(data, "BR", "20-49", "50-59", "60-69", "70+") %>%
     group_by(faixa_etaria, month) %>%
     summarise(vacinas = sum(vacine_pop)) %>% 
   spread(faixa_etaria, vacinas) %>%  cumsum() %>% round(., 2)
-vac
-View(vac)
+vacCoverage_first
+
+
+#-------------------------- Vaccination coverage first dose
+
+first_dose <- read.csv2("vac_coverage_first.csv", header = T, sep = ";",  dec = ",")
+first_dose$data <- lubridate::dmy(first_dose$data)
+colnames(first_dose) <- c("data", "20-29", "30-39", "40-49","50-59", 
+                          "60-69", "70-79", "80+", "20-49", "70+", "BR" )
+faixa <- matrix(c(97706614, 23875072, 16732965, 13464087, 121581686, 30197052), nrow = 1, byrow = T)
+colnames(faixa) <- c("20-49", "50-59", "60-69", "70+", "<60", ">=60")
+faixa <- as.data.frame(faixa)
+total_BR_population <- 151778738
+
+vacCoverage_first <- first_dose %>% select(data, "BR", "20-49", "50-59", "60-69", "70+") %>% 
+  gather(., faixa_etaria, vacina, -data) %>% 
+  mutate(population =  case_when(
+    faixa_etaria == "BR" ~ total_BR_population,
+    faixa_etaria == "20-49" ~ faixa$`20-49`,
+    faixa_etaria == "50-59" ~ faixa$`50-59`,
+    faixa_etaria == "60-69" ~ faixa$`60-69`,
+    TRUE ~ faixa$`70+`),  
+    month = lubridate::month(data),
+    vacine_pop = 100*vacina/population) %>% 
+  group_by(faixa_etaria, month) %>%
+  summarise(vacinas = sum(vacine_pop)) %>% 
+  spread(faixa_etaria, vacinas) %>%  cumsum() %>% round(., 2)
+vacCoverage_first
+
+
+#-------------------------- Vaccination coverage second or single  dose
+
+secon_single_dose <- read.csv2("vac_coverage_full.csv", header = T, sep = ";",  dec = ",")
+secon_single_dose$data <- lubridate::dmy(secon_single_dose$data)
+colnames(secon_single_dose) <- c("data", "20-29", "30-39", "40-49","50-59", 
+                          "60-69", "70-79", "80+", "20-49", "70+", "BR" )
+faixa <- matrix(c(97706614, 23875072, 16732965, 13464087, 121581686, 30197052), nrow = 1, byrow = T)
+colnames(faixa) <- c("20-49", "50-59", "60-69", "70+", "<60", ">=60")
+faixa <- as.data.frame(faixa)
+total_BR_population <- 151778738
+
+vacCoverage_secSingle <- secon_single_dose %>% select(data, "BR", "20-49", "50-59", "60-69", "70+") %>% 
+  gather(., faixa_etaria, vacina, -data) %>% 
+  mutate(population =  case_when(
+    faixa_etaria == "BR" ~ total_BR_population,
+    faixa_etaria == "20-49" ~ faixa$`20-49`,
+    faixa_etaria == "50-59" ~ faixa$`50-59`,
+    faixa_etaria == "60-69" ~ faixa$`60-69`,
+    TRUE ~ faixa$`70+`),  
+    month = lubridate::month(data),
+    vacine_pop = 100*vacina/population) %>% 
+  group_by(faixa_etaria, month) %>%
+  summarise(vacinas = sum(vacine_pop)) %>% 
+  spread(faixa_etaria, vacinas) %>%  cumsum() %>% round(., 2)
+vacCoverage_secSingle
 
 
 ###################################################################################################
@@ -358,11 +401,8 @@ resultado_BR_70 %>% filter(data > "2021-02-12") %>%
   summarise(averted_BR = sum(averted_BR),
            ) %>% colSums()
 
-
 #-----------------------------------------------------------------------------------
-
 #  Days from the start up to 75% vaccination coverage
-
 dataset_completo$data[which(round(dataset_completo$`cobertura_20-49`,2)>=0.75)][1] # "2021-07-30"
 dataset_completo$data[which(round(dataset_completo$`cobertura_50-59`,2)>=0.75)][1] # "2021-06-23"
 dataset_completo$data[which(round(dataset_completo$`cobertura_60-69`,2)>=0.75)][1] # "2021-04-30"
