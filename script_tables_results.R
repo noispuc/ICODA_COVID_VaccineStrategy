@@ -245,7 +245,7 @@ resultado_BR_20_49 <- cbind(dataset_completo_aux, IC_contrafatual_BR_ageAdj)
 
 
 #---------------------------- Age group 20-49
-# preventable deaths
+# Preventable deaths
 resultado_BR_20_49 %>% filter(data > "2021-05-10") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          excess_BR = if_else(round((fit_BR - `20-49`),0) < 0, 
@@ -260,7 +260,7 @@ resultado_BR_20_49 %>% filter(data > "2021-05-10") %>%
             ) %>% colSums()
 
 
-# prevented deaths
+# Prevented deaths
 resultado_BR_20_49 %>% filter(data > "2021-05-10") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          averted_BR = if_else(round((fit_BR - `20-49`),0) > 0, 
@@ -274,7 +274,7 @@ resultado_BR_20_49 %>% filter(data > "2021-05-10") %>%
 
 
 #---------------------------- Age group 50-59
-# preventable deaths
+# Preventable deaths
 resultado_BR_50_59 %>% filter(data > "2021-05-06") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          excess_BR = if_else(round((fit_BR - `50-59`),0) < 0, 
@@ -289,7 +289,7 @@ resultado_BR_50_59 %>% filter(data > "2021-05-06") %>%
             ) %>% colSums()
 
 
-# prevented deaths
+# Prevented deaths
 resultado_BR_50_59 %>% filter(data > "2021-05-06") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          averted_BR = if_else(round((fit_BR - `50-59`),0) > 0, 
@@ -303,7 +303,7 @@ resultado_BR_50_59 %>% filter(data > "2021-05-06") %>%
 
 
 #---------------------------- Age group 60-69
-# preventable deaths
+# Preventable deaths
 resultado_BR_60_69 %>% filter(data > "2021-03-27") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          excess_BR = if_else(round((fit_BR - `60-69`),0) < 0, 
@@ -318,7 +318,7 @@ resultado_BR_60_69 %>% filter(data > "2021-03-27") %>%
             ) %>% colSums()
 
 
-# prevented deaths
+# Prevented deaths
 resultado_BR_60_69 %>% filter(data > "2021-03-27") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          averted_BR = if_else(round((fit_BR - `60-69`),0) > 0, 
@@ -332,7 +332,7 @@ resultado_BR_60_69 %>% filter(data > "2021-03-27") %>%
 
 
 #---------------------------- Age group FAIXA 70+
-# preventable deaths
+# Preventable deaths
 resultado_BR_70 %>% filter(data > "2021-02-12") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          excess_BR = if_else(round((fit_BR - `70+`),0) < 0, 
@@ -346,7 +346,7 @@ resultado_BR_70 %>% filter(data > "2021-02-12") %>%
             `Estim_BR` = round(sum(fit_BR),0),
             ) %>% colSums()
 
-# prevented deaths
+# Prevented deaths
 resultado_BR_70 %>% filter(data > "2021-02-12") %>% 
   mutate(fit_BR = if_else(fit_BR < 0, 0, round(fit_BR,0)),
          averted_BR = if_else(round((fit_BR - `70+`),0) > 0, 
@@ -361,7 +361,7 @@ resultado_BR_70 %>% filter(data > "2021-02-12") %>%
 
 #-----------------------------------------------------------------------------------
 
-# Distâncias dias cobertura vacinal 75%
+#  Days from the start up to 75% vaccination coverage
 
 dataset_completo$data[which(round(dataset_completo$`cobertura_20-49`,2)>=0.75)][1] # "2021-07-30"
 dataset_completo$data[which(round(dataset_completo$`cobertura_50-59`,2)>=0.75)][1] # "2021-06-23"
