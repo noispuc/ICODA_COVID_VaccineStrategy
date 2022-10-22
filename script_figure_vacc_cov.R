@@ -63,7 +63,7 @@ filtro_70 <- df_obitos %>%
   mutate(cobertura = round(cobertura,4))
 c75.4 <- filtro_70$data[which(filtro_70$cobertura > 0.75)][1]
 
-#----------------------- Figure single dose
+#----------------------- Figure first dose vaccination
 c1 <- df_obitos %>% 
   filter(faixa_etaria %in% c("20-49", "50-59", "60-69", "70+"), data > "2020-12-31") %>% 
   mutate(cobertura = if_else(faixa_etaria == "20-49" & cobertura > 1, 1, cobertura)) %>% 
@@ -80,7 +80,7 @@ c1 <- df_obitos %>%
   scale_x_date(labels = date_format("%b/%y"), breaks = waiver()) + #breaks = "2 month"
   scale_y_continuous(labels = scales::percent_format(), breaks = seq(0,100, by = 0.25),) +
   scale_color_manual(values = colores) +
-  ylab("Single dose vaccination coverage(%)") + xlab("") + labs(subtitle = "") +
+  ylab("First dose vaccination \n coverage(%)") + xlab("") + labs(subtitle = "") +
   labs(subtitle = "", color = "\n") +
   theme_classic() +
   theme(axis.title.y.left = element_text(color = "grey8"),
@@ -114,7 +114,7 @@ filtro_70 <- df_obitos %>%
   mutate(cobertura_full = round(cobertura_full,4))
 c75.4 <- filtro_70$data[which(filtro_70$cobertura_full > 0.75)][1]
 
-#----------------------- Figure full vaccionation
+#----------------------- Figure second or single dose vaccionation
 c2 <- df_obitos %>% 
   filter(faixa_etaria %in% c("20-49", "50-59", "60-69", "70+"), data > "2020-12-31") %>% 
   mutate(cobertura_full = if_else(faixa_etaria == "20-49" & cobertura_full > 1, 1, cobertura_full)) %>% 
@@ -131,7 +131,7 @@ c2 <- df_obitos %>%
   scale_x_date(labels = date_format("%b/%y"), breaks = waiver()) + #breaks = "2 month"
   scale_y_continuous(labels = scales::percent_format(), breaks = seq(0,100, by = 0.25),) +
   scale_color_manual(values = colores) +
-  ylab("Full vaccination coverage(%)") + xlab("") + labs(subtitle = "") +
+  ylab("Single or secong vaccination \n coverage(%)") + xlab("") + labs(subtitle = "") +
   labs(subtitle = "", color = "\n") +
   theme_classic() +
   theme(axis.title.y.left = element_text(color = "grey8"),
