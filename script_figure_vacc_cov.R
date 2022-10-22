@@ -131,7 +131,7 @@ c2 <- df_obitos %>%
   scale_x_date(labels = date_format("%b/%y"), breaks = waiver()) + #breaks = "2 month"
   scale_y_continuous(labels = scales::percent_format(), breaks = seq(0,100, by = 0.25),) +
   scale_color_manual(values = colores) +
-  ylab("Single or second vaccination \n coverage(%)") + xlab("") + labs(subtitle = "") +
+  ylab("Second or single vaccination \n coverage(%)") + xlab("") + labs(subtitle = "") +
   labs(subtitle = "", color = "\n") +
   theme_classic() +
   theme(axis.title.y.left = element_text(color = "grey8"),
