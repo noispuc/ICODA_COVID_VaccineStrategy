@@ -40,17 +40,17 @@ View(dataset_completo)
 ###################################################################################################
 dataset_completo_aux <- dataset_completo %>% 
   mutate(BR_ageAdj = `ageAdj_20-49` + `ageAdj_50-59` + `ageAdj_60-69` + `ageAdj_70+`)
-c0 <- lubridate::ymd("2021-01-15") 
+c0 <- lubridate::ymd("2021-01-17") 
 
 
 #---------------------------------- Age group 70+
-fit <- lm(`70+` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-02-12")))
+fit <- lm(`70+` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-01-17")))
 IC_contrafatual_BR_ageAdj <- predict(fit, newdata = dataset_completo_aux, interval="predict")
 colnames(IC_contrafatual_BR_ageAdj) <- c("fit_BR", "lwr_BR", "upr_BR")
 resultado_BR_70 <- cbind(dataset_completo_aux, IC_contrafatual_BR_ageAdj)
 
 
-datas.4 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-02-12"))))
+datas.4 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-01-17"))))
 df_resultado_BR_70 <- 
   resultado_BR_70 %>%
   as_tibble() %>% 
@@ -62,12 +62,12 @@ df_resultado_BR_70 <-
 
 CT4 <- df_resultado_BR_70 %>% 
   ggplot() +
-  geom_ribbon(data = df_resultado_BR_70 %>% filter(data >= ymd(as.Date("2021-02-12"))),
+  geom_ribbon(data = df_resultado_BR_70 %>% filter(data >= ymd(as.Date("2021-01-17"))),
               aes(x = data, ymin = area_low, ymax = area_high, fill = fill_area), alpha = 0.3) +
   geom_line(aes(x = data, y = fit_BR), color = "black", size = 0.5) +
-  geom_line(data = resultado_BR_70 %>% filter(data < as.Date("2021-02-12")),
+  geom_line(data = resultado_BR_70 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "white", size = 1) + 
-  geom_line(data = resultado_BR_70 %>% filter(data < as.Date("2021-02-12")),
+  geom_line(data = resultado_BR_70 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "gray55", size = 0.5) + 
   geom_line(aes(x = data, y = `70+`), color = "#802268FF", size = 0.8) +
   geom_vline(aes(xintercept = c0), linetype = "dashed" , color = "black", alpha = 0.5) +
@@ -90,13 +90,13 @@ CT4 <- df_resultado_BR_70 %>%
 
 
 #---------------------------------- Age group 60-69
-fit <- lm(`60-69` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-03-27")))
+fit <- lm(`60-69` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-01-17")))
 IC_contrafatual_BR_ageAdj <- predict(fit, newdata = dataset_completo_aux, interval="predict")
 colnames(IC_contrafatual_BR_ageAdj) <- c("fit_BR", "lwr_BR", "upr_BR")
 resultado_BR_60_69 <- cbind(dataset_completo_aux, IC_contrafatual_BR_ageAdj)
 
 
-datas.3 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-03-27"))))
+datas.3 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-01-17"))))
 df_resultado_BR_60_69 <- 
   resultado_BR_60_69 %>% 
   mutate(
@@ -107,12 +107,12 @@ df_resultado_BR_60_69 <-
 
 CT3 <- df_resultado_BR_60_69 %>% 
   ggplot() +
-  geom_ribbon(data = df_resultado_BR_60_69 %>% filter(data >= ymd(as.Date("2021-03-27"))),
+  geom_ribbon(data = df_resultado_BR_60_69 %>% filter(data >= ymd(as.Date("2021-01-17"))),
               aes(x = data, ymin = area_low, ymax = area_high, fill = fill_area), alpha = 0.3) +
   geom_line(aes(x = data, y = fit_BR), color = "black", size = 0.5) +
-  geom_line(data = resultado_BR_60_69 %>% filter(data < as.Date("2021-03-27")),
+  geom_line(data = resultado_BR_60_69 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "white", size = 1) + 
-  geom_line(data = resultado_BR_60_69 %>% filter(data < as.Date("2021-03-27")),
+  geom_line(data = resultado_BR_60_69 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "gray55", size = 0.5) + 
   geom_line(aes(x = data, y = `60-69`), color = "#5DB1DDFF", size = 0.8) +
   geom_vline(aes(xintercept = c0), linetype = "dashed" , color = "black", alpha = 0.5) +
@@ -135,13 +135,13 @@ CT3 <- df_resultado_BR_60_69 %>%
 
 
 #----------------------------------  Age group 50-49
-fit <- lm(`50-59` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-05-06")))
+fit <- lm(`50-59` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-01-17")))
 IC_contrafatual_BR_ageAdj <- predict(fit, newdata = dataset_completo_aux, interval="predict")
 colnames(IC_contrafatual_BR_ageAdj) <- c("fit_BR", "lwr_BR", "upr_BR")
 resultado_BR_50_59 <- cbind(dataset_completo_aux, IC_contrafatual_BR_ageAdj)
 
 
-datas.2 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-05-06"))))
+datas.2 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-01-17"))))
 df_resultado_BR_50_59 <- 
   resultado_BR_50_59 %>% 
   mutate(
@@ -152,12 +152,12 @@ df_resultado_BR_50_59 <-
 
 CT2 <- df_resultado_BR_50_59 %>% 
   ggplot() +
-  geom_ribbon(data = df_resultado_BR_50_59 %>% filter(data >= ymd(as.Date("2021-05-06"))),
+  geom_ribbon(data = df_resultado_BR_50_59 %>% filter(data >= ymd(as.Date("2021-01-17"))),
               aes(x = data, ymin = area_low, ymax = area_high, fill = fill_area), alpha = 0.3) +
   geom_line(aes(x = data, y = fit_BR), color = "black", size = 0.5) +
-  geom_line(data = resultado_BR_50_59 %>% filter(data < as.Date("2021-05-06")),
+  geom_line(data = resultado_BR_50_59 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "white", size = 1) + 
-  geom_line(data = resultado_BR_50_59 %>% filter(data < as.Date("2021-05-06")),
+  geom_line(data = resultado_BR_50_59 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "gray55", size = 0.5) + 
   geom_line(aes(x = data, y = `50-59`), color = "#BA6338FF", size = 0.8) +
   geom_vline(aes(xintercept = c0), linetype = "dashed" , color = "black", alpha = 0.5) +
@@ -180,13 +180,13 @@ CT2 <- df_resultado_BR_50_59 %>%
 
 
 #---------------------------------- Age group 20-49
-fit <- lm(`20-49` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-05-10")))
+fit <- lm(`20-49` ~ `BR_ageAdj`, data = dataset_completo_aux %>% filter(data <= as.Date("2021-01-17")))
 IC_contrafatual_BR_ageAdj <- predict(fit, newdata = dataset_completo_aux, interval="predict")
 colnames(IC_contrafatual_BR_ageAdj) <- c("fit_BR", "lwr_BR", "upr_BR")
 resultado_BR_20_49 <- cbind(dataset_completo_aux, IC_contrafatual_BR_ageAdj)
 
 
-datas.1 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-05-10"))))
+datas.1 <- data.frame(corte = c(lubridate::ymd(as.Date("2021-01-17"))))
 df_resultado_BR_20_49 <- 
   resultado_BR_20_49 %>% 
   mutate(
@@ -195,15 +195,14 @@ df_resultado_BR_20_49 <-
     fill_area = if_else(`20-49` > fit_BR, TRUE, FALSE)
   )
 
-
 CT1 <- df_resultado_BR_20_49 %>% 
   ggplot() +
-  geom_ribbon(data = df_resultado_BR_20_49 %>% filter(data >= ymd(as.Date("2021-05-10"))),
+  geom_ribbon(data = df_resultado_BR_20_49 %>% filter(data >= ymd(as.Date("2021-01-17"))),
               aes(x = data, ymin = area_low, ymax = area_high, fill = fill_area), alpha = 0.3) +
   geom_line(aes(x = data, y = fit_BR), color = "black", size = 0.5) +
-  geom_line(data = resultado_BR_20_49 %>% filter(data < as.Date("2021-05-10")),
+  geom_line(data = resultado_BR_20_49 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "white", size = 1) + 
-  geom_line(data = resultado_BR_20_49 %>% filter(data < as.Date("2021-05-10")),
+  geom_line(data = resultado_BR_20_49 %>% filter(data < as.Date("2021-01-17")),
             aes(x = data, y = fit_BR), color = "gray55", size = 0.5) + 
   geom_line(aes(x = data, y = `20-49`), color = "#6BD76BFF", size = 0.8) +
   geom_vline(aes(xintercept = c0), linetype = "dashed" , color = "black", alpha = 0.5) +
@@ -223,6 +222,7 @@ CT1 <- df_resultado_BR_20_49 %>%
         axis.text.x = element_text(color = "grey8"),
         panel.grid.major = element_line(color = "white"),
         panel.grid.minor = element_line(color = "white"))
+
 
 #--------------------  Figure 3
 CT4 + CT3 + CT2 + CT1 + plot_annotation(tag_levels = "A")
