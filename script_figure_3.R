@@ -72,11 +72,11 @@ CT4 <- df_resultado_BR_70 %>%
   geom_line(aes(x = data, y = `70+`), color = "#802268FF", size = 0.8) +
   geom_vline(aes(xintercept = c0), linetype = "dashed" , color = "black", alpha = 0.5) +
   geom_vline(data = datas.4, aes(xintercept = corte), linetype = "dashed" , color = "black", alpha = 0.9) +
-  geom_text(data = datas.4, aes(x = corte + 85, y = 2500,
+  geom_text(data = datas.4, aes(x = corte + 85, y = 1700,
                                 label = c("70+ vaccination")),
             color = "gray15", size = 3, angle = 0) +
   scale_x_date(labels = date_format("%b/%y")) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(breaks = seq(0,1600, by = 300), labels = comma) +
   scale_fill_manual(guide = "none", values = c("TRUE" = "#ED00007F", "FALSE" = "#009966")) +  #c("TRUE" = "#ED00007F", "FALSE" = "#42B5407F")
   theme_classic() +
   ylab("Reported deaths 70+") + xlab("") +
@@ -162,11 +162,11 @@ CT2 <- df_resultado_BR_50_59 %>%
   geom_line(aes(x = data, y = `50-59`), color = "#BA6338FF", size = 0.8) +
   geom_vline(aes(xintercept = c0), linetype = "dashed" , color = "black", alpha = 0.5) +
   geom_vline(data = datas.2, aes(xintercept = corte), linetype = "dashed", color = "black", alpha = 0.9) +
-  geom_text(data = datas.2, aes(x = corte + 90, y = 510,
+  geom_text(data = datas.2, aes(x = corte + 90, y = 540,
                                 label = c("50-59 vaccination")),
             color = "gray15", size = 3, angle = 0) +
   scale_x_date(labels = date_format("%b/%y")) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(breaks = seq(0,600, by = 100), labels = comma) +
   scale_fill_manual(guide = "none", values = c("TRUE" = "#ED00007F", "FALSE" = "#009966")) +
   theme_classic() +
   ylab("Reported deaths 50-59") + xlab("") +
